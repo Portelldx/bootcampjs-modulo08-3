@@ -19,15 +19,25 @@ export function iniciarJuego() {
   renderizarTablero();
 }
 
-function renderizarTablero() {
+export function renderizarTablero() {
   const contenedorTablero = document.getElementById('tablero');
-  if (contenedorTablero) contenedorTablero.innerHTML = '';
+
+  if (contenedorTablero) {
+    contenedorTablero.innerHTML = '';
+  }
 
   tablero.cartas.forEach((_: Carta, indice: number) => {
     const cartaDiv = document.createElement('div');
     cartaDiv.classList.add('carta');
     cartaDiv.setAttribute('data-indice', indice.toString());
-    cartaDiv.innerHTML = `<img src="dorso.png" class="imagen-carta" alt="Carta">`;
+
+    const imagen = document.createElement('img');
+    imagen.src = 'dorso.png';
+    imagen.classList.add('imagen-carta');
+    imagen.setAttribute('data-indice-imagen', indice.toString());
+
+    cartaDiv.appendChild(imagen);
+
     cartaDiv.addEventListener('click', () => manejarClickCarta(indice));
     if (contenedorTablero) contenedorTablero.appendChild(cartaDiv);
   });
@@ -54,11 +64,9 @@ function manejarClickCarta(indice: number) {
     actualizarCartaEnUI(indice);
 
     if (tablero.estadoPartida === 'DosCartasLevantadas') {
-      // Asegurar que ambos índices están definidos antes de continuar
       const indiceA = tablero.indiceCartaVolteadaA;
       const indiceB = indice;
 
-      // Solo proceder si indiceA está definido
       if (typeof indiceA === 'number') {
         setTimeout(() => {
           if (sonPareja(indiceA, indiceB, tablero)) {
