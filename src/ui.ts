@@ -15,16 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function iniciarJuego() {
+  limpiarTableroUI();
   iniciaPartida(tablero);
   renderizarTablero();
 }
 
+function limpiarTableroUI() {
+  const contenedorTablero = document.getElementById('tablero');
+  const intentosElement = document.getElementById('intentos');
+
+  if (contenedorTablero && intentosElement) {
+    contenedorTablero.innerHTML = '';
+    intentosElement.innerHTML = '';
+  }
+}
+
 export function renderizarTablero() {
   const contenedorTablero = document.getElementById('tablero');
-
-  if (contenedorTablero) {
-    contenedorTablero.innerHTML = '';
-  }
 
   tablero.cartas.forEach((_: Carta, indice: number) => {
     const cartaDiv = document.createElement('div');
@@ -45,6 +52,8 @@ export function renderizarTablero() {
 
 function actualizarCartaEnUI(indice: number) {
   const carta = tablero.cartas[indice];
+  const elementoIntentos = document.getElementById('intentos');
+
   const cartaElemento = document.querySelector(
     `[data-indice="${indice}"]`
   ) as HTMLElement;
@@ -53,12 +62,24 @@ function actualizarCartaEnUI(indice: number) {
   if (imagen) {
     imagen.src = carta.estaVuelta ? carta.imagen : 'dorso.png';
   }
+
+  if (elementoIntentos) {
+    elementoIntentos.textContent = `Intentos: ${tablero.intentos}`;
+  }
+
   if (carta.encontrada) {
     cartaElemento.classList.add('encontrada');
   }
 }
 
 function manejarClickCarta(indice: number) {
+  const carta = tablero.cartas[indice];
+
+  if (carta.estaVuelta) {
+    alert('Esta carta ya está volteada. Elige otra carta.');
+    return;
+  }
+
   if (sePuedeVoltearLaCarta(tablero, indice)) {
     voltearLaCarta(tablero, indice);
     actualizarCartaEnUI(indice);

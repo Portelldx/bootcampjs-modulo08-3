@@ -31,6 +31,7 @@ export const voltearLaCarta = (tablero: Tablero, indice: number): void => {
     } else if (tablero.estadoPartida === 'UnaCartaLevantada') {
       tablero.estadoPartida = 'DosCartasLevantadas';
       tablero.indiceCartaVolteadaB = indice;
+      tablero.intentos++;
     }
   }
 };
@@ -70,6 +71,18 @@ export const esPartidaCompleta = (tablero: Tablero): boolean => {
 };
 
 export const iniciaPartida = (tablero: Tablero): void => {
+  // Baraja las cartas
   tablero.cartas = barajarCartas(tablero.cartas);
+
+  // Restablece el estado de cada carta
+  tablero.cartas.forEach((carta) => {
+    carta.estaVuelta = false;
+    carta.encontrada = false;
+  });
+
+  // Restablece el resto del estado del tablero
   tablero.estadoPartida = 'CeroCartasLevantadas';
+  tablero.intentos = 0;
+  tablero.indiceCartaVolteadaA = undefined;
+  tablero.indiceCartaVolteadaB = undefined;
 };

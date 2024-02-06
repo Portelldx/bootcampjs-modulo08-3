@@ -124,3 +124,7 @@ button:focus-visible {
   background-color: #b799fe;
   border-radius: 12px;
 }
+
+#intentos {
+  color: black;
+}
