@@ -1,4 +1,3 @@
-import './style.css';
 import { iniciarJuego, renderizarTablero } from './ui';
 
 document.addEventListener('DOMContentLoaded', () => {

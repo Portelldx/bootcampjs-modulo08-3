@@ -69,7 +69,7 @@ function actualizarCartaEnUI(indice: number) {
 
   if (carta.encontrada) {
     cartaElemento.classList.add('encontrada');
-    imagen.src = carta.imagen;
+    imagen.src = carta.imagen; // Voltear la carta inmediatamente
   }
 }
 
