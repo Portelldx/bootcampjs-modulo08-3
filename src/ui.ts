@@ -57,7 +57,7 @@ function actualizarCartaEnUI(indice: number) {
   const cartaElemento = document.querySelector(
     `[data-indice="${indice}"]`
   ) as HTMLElement;
-  const imagen = cartaElemento.querySelector('img');
+  const imagen = cartaElemento.querySelector('img') as HTMLImageElement;
 
   if (imagen) {
     imagen.src = carta.estaVuelta ? carta.imagen : 'dorso.png';
@@ -69,6 +69,7 @@ function actualizarCartaEnUI(indice: number) {
 
   if (carta.encontrada) {
     cartaElemento.classList.add('encontrada');
+    imagen.src = carta.imagen;
   }
 }
 
