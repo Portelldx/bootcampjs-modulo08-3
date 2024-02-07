@@ -1,16 +1,18 @@
+// Interfaz que representa una carta del juego
 export interface Carta {
-  idFoto: number; // id del 1 al 6 para 12 cartas, así identificamos rápido si es un gatito ,un perrito...
-  // el ID se repite 2 veces en el array de cartas (hay dos cartas de un perro, hay dos cartas de un gato)
-  imagen: string; // por comodidad repetimos la url de la imagen
-  estaVuelta: boolean;
-  encontrada: boolean;
+  idFoto: number; // ID para identificar el tipo de carta
+  imagen: string; // URL de la imagen asociada a la carta
+  estaVuelta: boolean; // Indica si la carta está volteada o no
+  encontrada: boolean; // Indica si la carta ha sido encontrada
 }
 
+// Interfaz que representa la información de una carta antes de ser creada
 export interface InfoCarta {
-  idFoto: number;
-  imagen: string;
+  idFoto: number; // ID de la carta
+  imagen: string; // URL de la imagen de la carta
 }
 
+// Información de las cartas disponibles en el juego
 export const infoCartas: InfoCarta[] = [
   {
     idFoto: 1,
@@ -44,6 +46,7 @@ export const infoCartas: InfoCarta[] = [
   },
 ];
 
+// Función para crear una nueva carta inicializada con valores predeterminados
 export const crearCartaInicial = (idFoto: number, imagen: string): Carta => ({
   idFoto,
   imagen,
@@ -51,13 +54,14 @@ export const crearCartaInicial = (idFoto: number, imagen: string): Carta => ({
   encontrada: false,
 });
 
+// Función para crear la colección inicial de cartas a partir de la información de las cartas
 export const crearColeccionDeCartasInicial = (
   infoCartas: InfoCarta[]
 ): Carta[] => {
-  // Duplicar las cartas
+  // Se duplican las cartas para crear pares de cartas
   const cartasDuplicadas: InfoCarta[] = [...infoCartas, ...infoCartas];
 
-  // Crear un array de Cartas a partir de las InfoCartas
+  // Se crea un array de Cartas a partir de las InfoCartas
   const coleccionDeCartas: Carta[] = cartasDuplicadas.map((infoCarta) => {
     return crearCartaInicial(infoCarta.idFoto, infoCarta.imagen);
   });
@@ -65,13 +69,14 @@ export const crearColeccionDeCartasInicial = (
   return coleccionDeCartas;
 };
 
+// Colección de cartas inicializada con la información de las cartas
 export let cartas: Carta[] = crearColeccionDeCartasInicial(infoCartas);
 
 /*
-  Aquí definimos el tipo de estado de la partida, la idea es que cuando empiece la partida todas las cartas estén boca abajo y si se hacen click sobre ellas no se volteen.
-  EstadoPartida = "PartidaNoIniciada", una vez que se pulse Iniciar partida el estado de la partida cambiaría a "CeroCartasLevantadas" y así sucesivamente.
+  Definición del tipo de estado de la partida.
+  Cuando se inicia la partida, todas las cartas están boca abajo y no volteadas.
+  El estado de la partida cambia durante el juego según las acciones del usuario.
 */
-
 export type EstadoPartida =
   | 'PartidaNoIniciada'
   | 'CeroCartasLevantadas'
@@ -79,18 +84,21 @@ export type EstadoPartida =
   | 'DosCartasLevantadas'
   | 'PartidaCompleta';
 
+// Interfaz que representa el estado del tablero de juego
 export interface Tablero {
-  cartas: Carta[];
-  estadoPartida: EstadoPartida;
-  indiceCartaVolteadaA?: number;
-  indiceCartaVolteadaB?: number;
-  intentos: number;
+  cartas: Carta[]; // Array de cartas en el tablero
+  estadoPartida: EstadoPartida; // Estado actual de la partida
+  indiceCartaVolteadaA?: number; // Índice de la primera carta levantada
+  indiceCartaVolteadaB?: number; // Índice de la segunda carta levantada
+  intentos: number; // Número de intentos realizados en la partida
 }
 
+// Función para crear el tablero inicial del juego
 export const crearTableroInicial = (): Tablero => ({
-  cartas: cartas,
-  estadoPartida: 'PartidaNoIniciada',
-  intentos: 0,
+  cartas: cartas, // Se asigna la colección de cartas al tablero
+  estadoPartida: 'PartidaNoIniciada', // El estado de la partida inicia como "PartidaNoIniciada"
+  intentos: 0, // Se inicializa el contador de intentos a 0
 });
 
+// Se inicializa el tablero del juego
 export let tablero: Tablero = crearTableroInicial();

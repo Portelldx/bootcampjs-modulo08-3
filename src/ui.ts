@@ -9,17 +9,20 @@ import {
 } from './motor';
 import { Carta, tablero } from './model';
 
+// Cuando el DOM esté cargado, se asigna la función iniciarJuego al evento click del botón de iniciar
 document.addEventListener('DOMContentLoaded', () => {
   const btnIniciar = document.getElementById('btnIniciar');
   if (btnIniciar) btnIniciar.addEventListener('click', iniciarJuego);
 });
 
+// Función que se ejecuta al hacer clic en el botón de iniciar juego
 export function iniciarJuego() {
-  limpiarTableroUI();
-  iniciaPartida(tablero);
-  renderizarTablero();
+  limpiarTableroUI(); // Limpia el tablero en la interfaz de usuario
+  iniciaPartida(tablero); // Inicia una nueva partida en el motor del juego
+  renderizarTablero(); // Renderiza el tablero en la interfaz de usuario
 }
 
+// Función para limpiar el tablero en la interfaz de usuario
 function limpiarTableroUI() {
   const contenedorTablero = document.getElementById('tablero');
   const intentosElement = document.getElementById('intentos');
@@ -30,6 +33,7 @@ function limpiarTableroUI() {
   }
 }
 
+// Función para renderizar el tablero en la interfaz de usuario
 export function renderizarTablero() {
   const contenedorTablero = document.getElementById('tablero');
 
@@ -45,15 +49,16 @@ export function renderizarTablero() {
 
     cartaDiv.appendChild(imagen);
 
+    // Asigna el evento de clic para manejar la interacción del usuario con las cartas
     cartaDiv.addEventListener('click', () => manejarClickCarta(indice));
     if (contenedorTablero) contenedorTablero.appendChild(cartaDiv);
   });
 }
 
+// Función para actualizar una carta en la interfaz de usuario
 function actualizarCartaEnUI(indice: number) {
   const carta = tablero.cartas[indice];
   const elementoIntentos = document.getElementById('intentos');
-
   const cartaElemento = document.querySelector(
     `[data-indice="${indice}"]`
   ) as HTMLElement;
@@ -69,10 +74,11 @@ function actualizarCartaEnUI(indice: number) {
 
   if (carta.encontrada) {
     cartaElemento.classList.add('encontrada');
-    imagen.src = carta.imagen; // Voltear la carta inmediatamente
+    imagen.src = carta.imagen;
   }
 }
 
+// Función para manejar el clic en una carta
 function manejarClickCarta(indice: number) {
   const carta = tablero.cartas[indice];
 
@@ -81,10 +87,12 @@ function manejarClickCarta(indice: number) {
     return;
   }
 
+  // Si se puede voltear la carta, se realiza la acción correspondiente
   if (sePuedeVoltearLaCarta(tablero, indice)) {
     voltearLaCarta(tablero, indice);
     actualizarCartaEnUI(indice);
 
+    // Si hay dos cartas levantadas, se verifica si forman una pareja después de un tiempo determinado
     if (tablero.estadoPartida === 'DosCartasLevantadas') {
       const indiceA = tablero.indiceCartaVolteadaA;
       const indiceB = indice;
@@ -101,6 +109,7 @@ function manejarClickCarta(indice: number) {
             actualizarCartaEnUI(indiceB);
           }
 
+          // Si todas las parejas han sido encontradas, se muestra un mensaje de partida completa
           if (esPartidaCompleta(tablero)) {
             console.log('¡Partida completa!');
           }

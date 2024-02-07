@@ -135,4 +135,6 @@ button:focus-visible {
 #intentos {
   color: black;
   margin-top: 20px;
+  font-family: inherit;
+  font-weight: bold;
 }

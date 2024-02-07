@@ -1,5 +1,6 @@
 import { Carta, Tablero } from './model';
 
+// Función para barajar las cartas en el tablero
 export const barajarCartas = (cartas: Carta[]): Carta[] => {
   // Usamos el algoritmo de Fisher-Yates para barajar las cartas
   for (let i = cartas.length - 1; i > 0; i--) {
@@ -9,6 +10,7 @@ export const barajarCartas = (cartas: Carta[]): Carta[] => {
   return cartas;
 };
 
+// Función para verificar si se puede voltear una carta en el tablero
 export const sePuedeVoltearLaCarta = (
   tablero: Tablero,
   indice: number
@@ -22,6 +24,7 @@ export const sePuedeVoltearLaCarta = (
   );
 };
 
+// Función para voltear una carta en el tablero
 export const voltearLaCarta = (tablero: Tablero, indice: number): void => {
   if (sePuedeVoltearLaCarta(tablero, indice)) {
     tablero.cartas[indice].estaVuelta = true;
@@ -36,6 +39,7 @@ export const voltearLaCarta = (tablero: Tablero, indice: number): void => {
   }
 };
 
+// Función para verificar si dos cartas forman una pareja
 export const sonPareja = (
   indiceA: number,
   indiceB: number,
@@ -46,6 +50,7 @@ export const sonPareja = (
   return cartaA.idFoto === cartaB.idFoto;
 };
 
+// Función para marcar una pareja de cartas como encontrada
 export const parejaEncontrada = (
   tablero: Tablero,
   indiceA: number,
@@ -56,6 +61,7 @@ export const parejaEncontrada = (
   tablero.estadoPartida = 'CeroCartasLevantadas';
 };
 
+// Función para restaurar el estado de dos cartas si no forman pareja
 export const parejaNoEncontrada = (
   tablero: Tablero,
   indiceA: number,
@@ -66,10 +72,12 @@ export const parejaNoEncontrada = (
   tablero.estadoPartida = 'CeroCartasLevantadas';
 };
 
+// Función para verificar si todas las parejas han sido encontradas
 export const esPartidaCompleta = (tablero: Tablero): boolean => {
   return tablero.cartas.every((carta) => carta.encontrada);
 };
 
+// Función para iniciar una nueva partida
 export const iniciaPartida = (tablero: Tablero): void => {
   // Baraja las cartas
   tablero.cartas = barajarCartas(tablero.cartas);
