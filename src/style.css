@@ -112,7 +112,7 @@ button:focus-visible {
 
 .carta:not(.encontrada) .imagen-carta:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px rgb(183, 153, 255, 0.8);
 }
 
 .grid-container {
