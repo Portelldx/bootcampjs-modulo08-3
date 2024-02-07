@@ -9,12 +9,6 @@ import {
 } from './motor';
 import { Carta, tablero } from './model';
 
-// Cuando el DOM esté cargado, se asigna la función iniciarJuego al evento click del botón de iniciar
-document.addEventListener('DOMContentLoaded', () => {
-  const btnIniciar = document.getElementById('btnIniciar');
-  if (btnIniciar) btnIniciar.addEventListener('click', iniciarJuego);
-});
-
 // Función que se ejecuta al hacer clic en el botón de iniciar juego
 export function iniciarJuego() {
   limpiarTableroUI(); // Limpia el tablero en la interfaz de usuario
